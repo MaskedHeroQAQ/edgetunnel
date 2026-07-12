@@ -8,11 +8,16 @@ on:
     - cron: "0 0 * * *" # every day
   workflow_dispatch:
 
+concurrency:
+  group: sync-upstream-main
+  cancel-in-progress: false
+
 jobs:
   sync_latest_from_upstream:
     name: Sync latest commits from upstream repo
     runs-on: ubuntu-latest
     if: ${{ github.event.repository.fork }}
+    timeout-minutes: 10
 
     steps:
       # Step 1: run a standard checkout action
